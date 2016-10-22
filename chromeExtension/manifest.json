@@ -1,8 +1,8 @@
 {
   "manifest_version": 2,
-  "name": "Legit Extension",
+  "name": "Coders Bragging Rights",
   "version": "0.1",
-  "description": "Reads your history, and shows the top ten pages you go to by typing the URL.",
+  "description": "Performs data analytics on your HarvardHacks 2016 search history",
   "permissions": [
     "history",
     "storage"
