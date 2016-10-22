@@ -31,16 +31,12 @@ class S(BaseHTTPRequestHandler):
         content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
         post_data = self.rfile.read(content_length) # <--- Gets the data itself
         self._set_headers()
-#        self.wfile.write("<html><body><h1>POST!</h1></body></html>")	
-        
+
         filePath = '/home/ubuntu/historyStorage/%s.json' % (str(time.time()).replace(".", ""))
         with open(filePath, 'w') as f:
             body_unicode = post_data.decode('utf-8')
             json.dump(json.loads(body_unicode), f, ensure_ascii=False)
 
-
-	
-        
 def run(server_class=HTTPServer, handler_class=S, port=8000):
     server_address = ('0.0.0.0', port)
     httpd = server_class(server_address, handler_class)
@@ -48,6 +44,4 @@ def run(server_class=HTTPServer, handler_class=S, port=8000):
     httpd.serve_forever()
 
 if __name__ == "__main__":
-    run() 
-
-
+    run()
