@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '-c-n4vd)t9#b)ne9$0((+zitunvosx&k98r(kgjhaxa1$mhjb^'
+SECRET_KEY = 't+!mv_wnbr0h1co!a5o92((8mzbo^!#h@hb3*ql8m$-$&4xhwa'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -118,3 +118,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# nginx can handle request for these itmes; tells django to place them in a directory called static in the base project directory
+STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+
