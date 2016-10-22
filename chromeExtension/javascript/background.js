@@ -25,7 +25,7 @@ chrome.runtime.onInstalled.addListener(function(details){
   if(details.reason == "install"){
     name = promptName();
     chrome.storage.sync.set({'name': name}, function(){
-      // sendHistoryToServer('',10000,8000);
+      sendHistoryToServer('',10000,8000);
       console.log("sending hackathon history");
     });
   }
