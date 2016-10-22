@@ -1,9 +1,6 @@
 var hackathonEndTime = 1477227600000;
 var hackathonStartTime = 1477094400000;
 
-var totalHistoryListenerPort = 8000;
-var singleItemListenerPort = 8010;
-
 var landingURL = "http://52.70.98.235";
 
 // Launch analytics site when the user clicks on icon
@@ -25,7 +22,7 @@ chrome.runtime.onInstalled.addListener(function(details){
   if(details.reason == "install"){
     name = promptName();
     chrome.storage.sync.set({'name': name}, function(){
-      sendHistoryToServer('',10000,8000);
+      sendHistoryToServer('',10000);
       console.log("sending hackathon history");
     });
   }
@@ -35,18 +32,18 @@ chrome.runtime.onInstalled.addListener(function(details){
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if( request.message === "page_loaded_action" ) {
-      sendHistoryToServer('',1,singleItemListenerPort);
+      sendHistoryToServer('',1);
       console.log("sending single item");
     }
   }
 );
 
 //helper function to be called by virtually all history queries
-function sendHistoryToServer(text, maxResults, port) {
+function sendHistoryToServer(text, maxResults) {
   chrome.history.search({text:text, startTime: hackathonStartTime, endTime: hackathonEndTime, maxResults:maxResults}, function(history) {
 
     xhr = new XMLHttpRequest();
-    var url = landingURL+ ":" + port;
+    var url = landingURL+ ":" + 8000;
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json");
     xhr.onreadystatechange = function () {
