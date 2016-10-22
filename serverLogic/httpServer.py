@@ -33,7 +33,7 @@ class S(BaseHTTPRequestHandler):
         self._set_headers()
 #        self.wfile.write("<html><body><h1>POST!</h1></body></html>")	
         
-        filePath = '../database/historyStorage_%s.json' % (str(time.time()).replace(".", ""))
+        filePath = '/home/ubuntu/historyStorage/%s.json' % (str(time.time()).replace(".", ""))
         with open(filePath, 'w') as f:
             body_unicode = post_data.decode('utf-8')
             json.dump(json.loads(body_unicode), f, ensure_ascii=False)
