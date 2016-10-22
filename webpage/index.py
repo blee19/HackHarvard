@@ -1,32 +1,9 @@
 #!/usr/bin/python
+import codecs
 import cgitb
+
 cgitb.enable()
-print("Content-Type: text/html")
-print()
-"""
-# Turn on debug mode.
-import cgitb
-cgitb.enable()
+print("Content-Type: text/html\n")
 
-# Print necessary headers.
-
-# Connect to the database.
-import pymysql
-conn = pymysql.connect(
-    db='example',
-    user='root',
-    passwd='password',
-    host='localhost')
-c = conn.cursor()
-
-# Insert some example data.
-c.execute("INSERT INTO numbers VALUES (1, 'One!')")
-c.execute("INSERT INTO numbers VALUES (2, 'Two!')")
-c.execute("INSERT INTO numbers VALUES (3, 'Three!')")
-conn.commit()
-
-# Print the contents of the database.
-c.execute("SELECT * FROM numbers")
-print([(r[0], r[1]) for r in c.fetchall()])
-"""
-print("<p>hello, world</p>")
+f=codecs.open("html/index.html", 'r')
+print (f.read())
