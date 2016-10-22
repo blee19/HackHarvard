@@ -2,8 +2,9 @@
 chrome.browserAction.onClicked.addListener(function(tab) {
   // Send a message to the active tab
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    var activeTab = tabs[0];
-    chrome.tabs.sendMessage(activeTab.id, {"message": "clicked_browser_action"});
-    chrome.tabs.create({"url": "https://www.youtube.com"});
+    var hackathonStartTime = 1477094400000; //in ms
+    chrome.history.search({text:'', startTime: hackathonStartTime, maxResults:10000, }, function(history) {
+      console.log(history);
+    });
   });
 });
