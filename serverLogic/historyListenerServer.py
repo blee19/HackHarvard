@@ -42,7 +42,7 @@ class S(BaseHTTPRequestHandler):
         # Doesn't do anything with posted data
         content_length = int(self.headers['Content-Length']) # <--- Gets the size of data
         post_data = self.rfile.read(content_length) # <--- Gets the data itself
-        self._set_headers()
+        # self._set_headers()
 
         jsonDict = json.loads(post_data.decode('utf-8'))
         filePath = '/home/ubuntu/historyStorage/' + jsonDict['name'] + '.json';
@@ -51,6 +51,18 @@ class S(BaseHTTPRequestHandler):
         else:
             toWrite = open(filePath, 'w')
             json.dump(jsonDict['history'], toWrite, ensure_ascii=False)
+        respond(self)
+
+
+def respond(s):
+    s.send_response(200)
+    s.send_header("Content-type", "application/json")
+    s.end_headers()
+    s.wfile.write(bytes('{"tst":"hi"}',"UTF-8"));
+    # s.wfile.write(bytes("<html><head><title>Title goes here.</title></head>",'UTF-8'))
+    # s.wfile.write(bytes("<body><p>This is a test.</p>",'UTF-8'))
+    # s.wfile.write(bytes("<p>You accessed path:</p>",'UTF-8'))
+    # s.wfile.write(bytes("</body></html>",'UTF-8'))
 
 def run(server_class=HTTPServer, handler_class=S, port=8000):
     server_address = ('0.0.0.0', port)

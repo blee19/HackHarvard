@@ -23,7 +23,6 @@ chrome.runtime.onInstalled.addListener(function(details){
     name = promptName();
     chrome.storage.sync.set({'name': name}, function(){
       sendHistoryToServer('',10000);
-      console.log("sending hackathon history");
     });
   }
 });
@@ -33,7 +32,6 @@ chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
     if( request.message === "page_loaded_action" ) {
       sendHistoryToServer('',1);
-      console.log("sending single item");
     }
   }
 );
@@ -41,20 +39,21 @@ chrome.runtime.onMessage.addListener(
 //helper function to be called by virtually all history queries
 function sendHistoryToServer(text, maxResults) {
   chrome.history.search({text:text, startTime: hackathonStartTime, endTime: hackathonEndTime, maxResults:maxResults}, function(history) {
-
     xhr = new XMLHttpRequest();
     var url = landingURL+ ":" + 8000;
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json");
+
     xhr.onreadystatechange = function () {
         if (xhr.readyState == 4 && xhr.status == 200) {
-            console.log("send successful!");
+            console.log(xhr.response);
+            console.log(JSON.parse(xhr.response));
         }
     }
 
     chrome.storage.sync.get('name', function(dict) {
       var data = JSON.stringify({'history': history, 'name': dict['name']});
-      console.log(data);
+      console.log("sending history to server");
       xhr.send(data);
     });
   });
