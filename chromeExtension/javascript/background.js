@@ -12,7 +12,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 // get the user's name (hopefully unique.  I'm not checking that shit)
 function promptName() {
-  var name = prompt("Please enter your name", "");
+  var name = prompt("Hey, you!  Enter a unique string!  I didn't do duplicate checking, so try hard!", "");
   if (name != null) { return name; }
   return promptName();
 }
