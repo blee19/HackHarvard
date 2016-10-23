@@ -1,35 +1,40 @@
 import os
-import numpy as np
-import seaborn as sns
 import json
-import re
-import itertools
-import time
-import pandas as pd
-import matplotlib
-import matplotlib.pyplot as plt
-from sklearn.cluster import KMeans
 import datetime
+import seaborn as sns
+import itertools
+import re
+import numpy as np
+import pandas as pd
+import time
+import matplotlib.pyplot as plt
+import matplotlib
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.cluster import KMeans
 from sklearn.metrics.pairwise import cosine_similarity
 
 
-def global_analytics():
 
-    file_names = []
-    for fn in os.listdir('~/historyStorage/'):
-        file_names.append(fn)
-    type(file_names[0])
-    # file_names
+
+# file_name = raw_input('Input file name here: ')
+def local_analytics(url):
+    
+    
+    # import numpy as np
+    # file_names = []
+    # for fn in os.listdir('../../tmp/historyStorage/'):
+    #     file_names.append(fn)
+    # type(file_names[0])
+    # # file_names
 
     # %load processJSONData.py
     # historyStorage_1477123900862362.json
     file_searches = []
     
-    
-    for i in file_names:
-        with open('~/historyStorage/'+i) as data_file:    
-            file_searches.append(json.loads(data_file.read()))
+    # for i in file_names:
+    with open(url) as data_file:    
+        file_searches.append(json.loads(data_file.read()))
+
 
 
     
@@ -73,6 +78,7 @@ def global_analytics():
     for i in url:
         domains.append(getDomain(i))
 
+    
     lastVisitTime = np.sort(lastVisitTime)
     # time.time()
 
@@ -100,14 +106,13 @@ def global_analytics():
     
     # %matplotlib inline
 
-
     plt.figure(figsize=[10,5])
     domain_hist = df_reasonable.title.plot(kind="bar")
     plt.ylabel('Frequency', ); plt.xlabel('Domains')
     plt.title('All searches (10 queries minimum)')
     plt.tight_layout()
     plt.show()
-    plt.savefig('../webpage/images/totalsPhotos/domain_frequencies.png', bbox_inches='tight')
+    plt.savefig('../webpage/images/individualsPhotos/domain_frequencies_local.png', bbox_inches='tight')
 
     # df[df.domains == 'google']
 
@@ -139,7 +144,7 @@ def global_analytics():
 
     print("Top non google/S.O terms per cluster:\n")
     for i in range(k):
-        
+
     #     print("Cluster %d topics:" % i)
     #     for title in non_google["title"][labels == i]:
     #         print(' %s,' % title)
@@ -175,16 +180,16 @@ def global_analytics():
     google_search_times = []
     for i in google_search.index:
          google_search_times.append(lastVisitTime[i])
-            
+
     df_all_times = []
     for i in df.index:
          df_all_times.append(lastVisitTime[i])
-            
+
     stackoverflow_search = df[df.domains == 'stackoverflow']
     stackoverflow_search_times = []
     for i in stackoverflow_search.index:
         stackoverflow_search_times.append(lastVisitTime[i])
-        
+
     both_search = df[(df.domains == 'stackoverflow') | (df.domains == 'google')]
     both_search_times = []
     for i in both_search.index:
@@ -196,11 +201,11 @@ def global_analytics():
     plt.plot(google_search_times,range(len(google_search_times)), c = 'green', label = 'google')
     plt.plot(both_search_times,range(len(both_search_times)), c = 'purple', label = 'both')
     plt.axvline(true_night_start*1000, color = 'black')
-    plt.text(true_night_start*1000 + 850000, len(df)-2000, s = 'Midnight, 10/23', color = 'black')
+    plt.text(true_night_start*1000 + 850000, len(df)-50, s = 'Midnight, 10/23', color = 'black')
     plt.legend(loc = 'upper left')
 
     plt.axvline(midday_start*1000, color = 'black')
-    plt.text(midday_start*1000 + 850000, len(df)-2000, s = 'Noon, 10/23', color = 'black')
+    plt.text(midday_start*1000 + 850000, len(df)-50, s = 'Noon, 10/23', color = 'black')
 
     plt.xlabel('Time'); plt.ylabel('Cumulative Frequency')
 
@@ -208,7 +213,7 @@ def global_analytics():
     plt.tight_layout()
     plt.autoscale(tight=True)
     plt.show()
-    plt.savefig('../webpage/images/totalsPhotos/cumulative_densities.png', bbox_inches='tight')
+    plt.savefig('../webpage/images/individualsPhotos/cumulative_densities_local.png', bbox_inches='tight')
 
     python_df = df[df['title'].str.contains("python|Python")==True]
     javascript_df = df[df['title'].str.contains("javascript|Javascript")==True]
@@ -261,12 +266,12 @@ def global_analytics():
     )
     plt.tight_layout()
     plt.show()
-    plt.savefig('../webpage/images/totalsPhotos/buzzwords.png', bbox_inches='tight')
+    plt.savefig('../webpage/images/individualsPhotos/buzzwords_local.png', bbox_inches='tight')
 
     def CBR_ratio(total_searches, google_searches, stackoverflow_searches):
         google_ratio = len(google_searches) / (len(total_searches) + 0.0)
         stackoverflow_ratio = len(stackoverflow_searches) / (len(total_searches) + 0.0)
-        
+
         return google_ratio, stackoverflow_ratio
 
     # CBR_ratio(df_all_times, google_search_times, stackoverflow_search_times)
@@ -355,6 +360,7 @@ def global_analytics():
 
     plt.plot(range(8, len(time_stamps) + 8), time_index)
     plt.xlabel('Hours of Hackathon'); plt.ylabel('Search Frequency')
-    plt.savefig('../webpage/images/totalsPhotos/search_histogram.png', bbox_inches='tight')
+    plt.savefig('../webpage/images/individualsPhotos/search_histogram_local.png', bbox_inches='tight')
+
 
 
